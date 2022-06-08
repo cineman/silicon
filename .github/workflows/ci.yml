@@ -1,0 +1,48 @@
+name: Hydrogen CI
+
+on:
+  push:
+    branches: [ '*' ]
+  pull_request:
+    branches: [ '*' ]
+
+jobs:
+  build:
+
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      matrix:
+        operating-system: ['ubuntu-latest']
+        php-versions: ['7.4', '8.0', '8.1']
+        phpunit-versions: ['latest']
+
+    steps:
+    - uses: actions/checkout@v2
+      
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-versions }}
+        coverage: xdebug
+        tools: cs2pr
+        extensions: luaSandbox
+        
+    - name: Configure Cineman Repo
+      run: >-
+        composer config repositories.cineman '{"type": "composer", "url":
+        "https://repos-php.cineman.ch", "options":  { "http": { "header": [
+        "X-Access-Token: ${{ secrets.CINEMAN_REPO_ACCESS_TOKEN }}" ]}}}'
+
+    - name: Install dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest
+    
+    - name: Run PHPUnit 
+      run: php vendor/bin/phpunit --coverage-text
+      
+    - name: Run PHPStan 
+      if: ${{ matrix.php-versions == '8.1' }}
+      run: php vendor/bin/phpstan analyse src --error-format=github -l8
+      
+    - name: Run PHPCS  
+      if: ${{ matrix.php-versions == '8.1' }}
+      run: php vendor/bin/phpcs src/ --standard=vendor/cineman/hydrogen-cs --report=checkstyle | cs2pr --graceful-warnings
