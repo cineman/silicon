@@ -33,7 +33,7 @@ jobs:
         "X-Access-Token: ${{ secrets.CINEMAN_REPO_ACCESS_TOKEN }}" ]}}}'
 
     - name: Install luaSandbox
-      run: sudo apt-get update && sudo apt-get install -y liblua5.1-0-dev && sudo pecl install luaSandbox
+      run: sudo apt-get update && sudo apt-get install -y liblua5.1-0-dev && sudo pecl install luaSandbox && grep -qxF 'extension=luasandbox.so' /etc/php/${{ matrix.php-versions }}/cli/php.ini || echo 'extension=luasandbox.so' >> /etc/php/${{ matrix.php-versions }}/cli/php.ini
       
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress --no-suggest
