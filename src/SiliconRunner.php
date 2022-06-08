@@ -22,8 +22,12 @@ class SiliconRunner
     /**
      * Creates and returns a LUA context
      */
-    public function boot(LuaContextOptions $options, ?SiliconConsole $console = null) : LuaContext
+    public function boot(?LuaContextOptions $options = null, ?SiliconConsole $console = null) : LuaContext
     {
+        if (is_null($options)) {
+            $options = new LuaContextOptions();
+        }
+
         return new LuaContext($options, $console, $this->container);
     }
 }
