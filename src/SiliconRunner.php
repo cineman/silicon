@@ -5,7 +5,7 @@ namespace Silicon;
 use ClanCats\Container\Container;
 
 class SiliconRunner
-{   
+{
     /**
      * An instance of the DI container
      */

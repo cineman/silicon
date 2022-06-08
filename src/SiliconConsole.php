@@ -3,7 +3,7 @@
 namespace Silicon;
 
 class SiliconConsole implements SiliconModuleInterface
-{   
+{
     /**
      * Console log types
      */
@@ -111,7 +111,7 @@ LUA;
         $pad0 = str_repeat(' ', $prefixLength - 2);
         $pad = str_repeat(' ', $prefixLength);
 
-        $buffer = "[".count($data)."]{" . PHP_EOL;
+        $buffer = "[" . count($data) . "]{" . PHP_EOL;
 
         $data = array_slice($data, 0, $this->maxArrayDumpLength, true);
     
@@ -154,7 +154,7 @@ LUA;
                 $buffer[] = $this->convertArrayToDebugString($argument);
             }
             else {
-                $buffer[] ='unknown';
+                $buffer[] = 'unknown';
             }
         }
 

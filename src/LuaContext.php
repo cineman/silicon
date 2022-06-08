@@ -193,16 +193,16 @@ class LuaContext
             return $result;
         }
         // wrap the exceptions in our own
-        catch(LuaSandboxSyntaxError $e) {
+        catch (LuaSandboxSyntaxError $e) {
             throw new SiliconLuaSyntaxException($e->getMessage(), $e->getCode(), $e);
         }
-        catch(LuaSandboxRuntimeError $e) {
+        catch (LuaSandboxRuntimeError $e) {
             throw new SiliconRuntimeException($e->getMessage(), $e->getCode(), $e);
         }
-        catch(LuaSandboxTimeoutError $e) {
+        catch (LuaSandboxTimeoutError $e) {
             throw new SiliconCPUTimeoutException($e->getMessage(), $e->getCode(), $e);
         }
-        catch(LuaSandboxMemoryError $e) {
+        catch (LuaSandboxMemoryError $e) {
             throw new SiliconMemoryExhaustionException($e->getMessage(), $e->getCode(), $e);
         }
     }
@@ -220,16 +220,16 @@ class LuaContext
             $result = $this->lua->callFunction($functionName, ...$args);
         }
         // wrap the exceptions in our own
-        catch(LuaSandboxSyntaxError $e) {
+        catch (LuaSandboxSyntaxError $e) {
             throw new SiliconLuaSyntaxException($e->getMessage(), $e->getCode(), $e);
         }
-        catch(LuaSandboxRuntimeError $e) {
+        catch (LuaSandboxRuntimeError $e) {
             throw new SiliconRuntimeException($e->getMessage(), $e->getCode(), $e);
         }
-        catch(LuaSandboxTimeoutError $e) {
+        catch (LuaSandboxTimeoutError $e) {
             throw new SiliconCPUTimeoutException($e->getMessage(), $e->getCode(), $e);
         }
-        catch(LuaSandboxMemoryError $e) {
+        catch (LuaSandboxMemoryError $e) {
             throw new SiliconMemoryExhaustionException($e->getMessage(), $e->getCode(), $e);
         }
 

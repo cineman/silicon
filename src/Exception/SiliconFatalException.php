@@ -6,5 +6,4 @@ use Silicon\Exception\SiliconException;
 
 class SiliconFatalException extends SiliconException
 {
-    
 }

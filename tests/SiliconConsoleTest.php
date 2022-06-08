@@ -1,6 +1,6 @@
 <?php 
 
-namespace App\Tests\PJASScript;
+namespace Silicon\Tests;
 
 use Silicon\SiliconConsole;
 

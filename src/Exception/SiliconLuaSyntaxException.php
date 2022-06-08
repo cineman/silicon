@@ -6,5 +6,4 @@ use Silicon\Exception\SiliconFatalException;
 
 class SiliconLuaSyntaxException extends SiliconFatalException
 {
-    
 }
