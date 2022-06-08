@@ -33,7 +33,7 @@ jobs:
         "X-Access-Token: ${{ secrets.CINEMAN_REPO_ACCESS_TOKEN }}" ]}}}'
 
     - name: Install luaSandbox
-      run: pecl install luaSandbox
+      run: apt-get update && apt-get install -y liblua5.1-0-dev && pecl install luaSandbox
       
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress --no-suggest
