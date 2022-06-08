@@ -1,5 +1,7 @@
 # Silicon 
 
+[![Hydrogen CI](https://github.com/cineman/silicon/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/cineman/silicon/actions/workflows/ci.yml)
+
 Wrapper around the luaSandbox extension for Hydrogen.
 
 ## Usage 
@@ -43,7 +45,7 @@ function distance(x1, y1, x2, y2)
 end
 
 return distance(10, 5, 50, 100)
-LUA;);
+LUA);
 
 var_dump($result); // float(103.07764064044152)
 ```
@@ -53,4 +55,44 @@ The function `distance` has been declared in our lua context now, so we can also
 ```php
 $result = $context->invokeFunction('distance', 5, 5, 10, 10);
 var_dump($result); // float(7.0710678118654755)
+```
+
+### Defining custom modules
+
+To define a custom module it needs to be bound to the container which is passed to runner or the sandbox itself, here an example how you create a email module with sendmail. (Obviously do not do this!)
+
+```php
+@my_lua_mailer: App\LuaMailer
+    = silicon.module: 'email'
+```
+
+All you have to do is to implement the `SiliconModuleInterface`: 
+
+```php
+class LuaMailer implements SiliconModuleInterface
+{
+    public function getExposedFunctions(LuaContext $ctx) : ?array {
+        return [
+            'send' => [$this, 'exposeSend']
+        ];
+    }
+
+    public function preloadLua() : ?string {
+        return null;
+    }
+
+    public function exposeSend(string $to, string $subject, string $message) {
+        mail($to, $subject, $message . '\n\nSend from Lua!');
+    }
+}
+```
+
+In lua you will be able to use that module as follows:
+
+```lua
+local to = 'support@cineman.ch'
+local subject = 'Please dont spam us'
+local message = 'Hello there'
+
+email.send(to, subject, message)
 ```
