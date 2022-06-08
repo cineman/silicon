@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "858c4497bbcdc4d7fb4b8e6f42f42450",
+    "content-hash": "f003736d6ba7d7968253015d33aa192c",
     "packages": [
         {
             "name": "clancats/container",
@@ -48,6 +48,43 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "cineman/hydrogen-cs",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:cineman/hydrogen-cs.git",
+                "reference": "1f301fdd282ee0bb0f5c6a85ff7bc6e242b8e8bf"
+            },
+            "dist": {
+                "type": "tar",
+                "url": "https://repos-php.cineman.ch/dist/cineman/hydrogen-cs/cineman-hydrogen-cs-1f301fdd282ee0bb0f5c6a85ff7bc6e242b8e8bf-zip-25a90d.tar",
+                "reference": "1f301fdd282ee0bb0f5c6a85ff7bc6e242b8e8bf",
+                "shasum": "82e53c19ef88993d534a12036099c90d7d71aff6"
+            },
+            "require-dev": {
+                "squizlabs/php_codesniffer": "^3.5"
+            },
+            "type": "library",
+            "authors": [
+                {
+                    "name": "Mario Döring",
+                    "email": "mario@clancats.com"
+                }
+            ],
+            "support": {
+                "source": "https://github.com/cineman/hydrogen-cs/tree/master",
+                "issues": "https://github.com/cineman/hydrogen-cs/issues"
+            },
+            "transport-options": {
+                "http": {
+                    "header": [
+                        "X-Access-Token: JZNBkI2P8N9VGIHWVuZ8Aqklb3EdytrNNyVNJ05GIdjBiMh6SufsSA9pHiDd1-Df"
+                    ]
+                }
+            },
+            "time": "2021-10-14T13:03:57+00:00"
+        },
         {
             "name": "doctrine/instantiator",
             "version": "1.4.1",
@@ -2126,7 +2163,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "cineman/hydrogen-cs": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": [],
