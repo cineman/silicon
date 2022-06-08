@@ -25,7 +25,6 @@ jobs:
         php-version: ${{ matrix.php-versions }}
         coverage: xdebug
         tools: cs2pr
-        extensions: luaSandbox
         
     - name: Configure Cineman Repo
       run: >-
@@ -33,6 +32,9 @@ jobs:
         "https://repos-php.cineman.ch", "options":  { "http": { "header": [
         "X-Access-Token: ${{ secrets.CINEMAN_REPO_ACCESS_TOKEN }}" ]}}}'
 
+    - name: Install luaSandbox
+      run: pecl install luaSandbox
+      
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress --no-suggest
     
