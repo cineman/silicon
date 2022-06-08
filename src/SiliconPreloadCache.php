@@ -2,6 +2,8 @@
 
 namespace Silicon;
 
+use Silicon\Exception\SiliconException;
+
 class SiliconPreloadCache
 {
     /**
@@ -47,6 +49,10 @@ class SiliconPreloadCache
 
     public function getCache() : string
     {
+        if (is_null($this->cacheBin)) {
+            throw new SiliconException("Trying to read non build preload cache.");
+        }
+
         return $this->cacheBin;
     }
 }

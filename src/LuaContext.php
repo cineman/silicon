@@ -126,8 +126,11 @@ class LuaContext
         }
         elseif (!is_null($this->options->preloadCache)) {
             $preloadBin = $this->options->preloadCache->getCache();
+        } else {
+            $preloadBin = '';
         }
 
+        // @phpstan-ignore-next-line
         $this->lua->loadBinary($preloadBin, 'preload')->call();
     } 
 
@@ -150,9 +153,9 @@ class LuaContext
      */
     private function registerContainerModules() 
     {
-        if (!$this->container) return;
+        if (!$container = $this->container) return;
 
-        foreach($this->container->serviceNamesWithMetaData('silicon.module') as $serviceName => $moduleMetaData)
+        foreach($container->serviceNamesWithMetaData('silicon.module') as $serviceName => $moduleMetaData)
         {
             foreach($moduleMetaData as $moduleMeta)
             {
@@ -160,7 +163,7 @@ class LuaContext
                     throw new SiliconException('Trying to register a lua / silicon module without a module name.');
                 }
 
-                $module = $this->container->get($serviceName);
+                $module = $container->get($serviceName);
                 if (!$module instanceof SiliconModuleInterface) {
                     throw new SiliconException(sprintf("Trying to register the module %s, which does not implement the SiliconModuleInterface", $serviceName));
                 }
@@ -177,12 +180,14 @@ class LuaContext
      * 
      * You can define a return statement, the contents of that will be forwared 
      * and also returned by the PHP function.
+     * 
+     * @return array<mixed>|null
      */
     public function eval(string $code) : ?array
     {
         try {
             $func = $this->lua->loadString($code, 'SiliconEval');
-            $result = $func->call();
+            $result = $func->call(); // @phpstan-ignore-line
 
             if ($result === false) return null;
             return $result;
@@ -235,10 +240,11 @@ class LuaContext
     /**
      * Creates a from lua callable function closure, @see wrapPhpFunction
      *
-     * @param callable|array                $function
+     * @param callable|array<mixed>                $function
      */
     public function lambda($function) : LuaSandboxFunction
     {
+        // @phpstan-ignore-next-line
         return $this->lua->wrapPhpFunction($function);
     }
 }

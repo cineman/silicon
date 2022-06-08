@@ -103,6 +103,8 @@ LUA;
 
     /**
      * Converts the given array to a human readable form
+     * 
+     * @param array<mixed>              $data
      */
     private function convertArrayToDebugString(array $data, int $prefixLength = 2) : string
     {
