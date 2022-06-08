@@ -57,6 +57,45 @@ $result = $context->invokeFunction('distance', 5, 5, 10, 10);
 var_dump($result); // float(7.0710678118654755)
 ```
 
+### Sandbox constraints 
+
+When booting up a Sandbox you can pass execution constraints to ensure no resource exhaustion. 
+
+```php
+$silicon = $container->get('silicon');
+
+$options = new LuaContextOptions;
+$options->memoryLimit = LuaContextOptions::MEML_32MB;
+$options->CPUTimeLimit = 30.0; // 30 seconds
+
+$context = $silicon->boot($options);
+```
+
+### Console
+
+Silicon comes with a console built in for simpler debugging and realtime feedback:
+
+```lua
+console.log(42) 
+console.warn("noooo")
+console.error({'Something', 'Went', 'Wrong'})
+```
+
+Output: 
+
+```php
+// int(42)
+// string("noooo")
+// [3]{
+//   1: string("Something")
+//   2: string("Went")
+//   3: string("Wrong")
+// }
+foreach($context->console()->all() as $message) {
+    echo $message[1] . PHP_EOL;
+}
+````
+
 ### Defining custom modules
 
 To define a custom module it needs to be bound to the container which is passed to runner or the sandbox itself, here an example how you create a email module with sendmail. (Obviously do not do this!)
