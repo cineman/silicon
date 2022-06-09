@@ -1,0 +1,15 @@
+/**
+ * Silicon library
+ *
+ * ----------------------------------------------------------
+ */
+// override :hydrogen.maker.command_namespace: 'Silicon/Command'
+
+/**
+ * Commands
+ *
+ * ----------------------------------------------------------
+ */
+@silicon.command.run_script: Silicon\Command\SiliconRunScriptCommand(@container)
+	= command: 'silicon:run'
+

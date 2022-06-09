@@ -17,6 +17,7 @@ use LuaSandboxMemoryError;
 use LuaSandboxRuntimeError;
 use LuaSandboxSyntaxError;
 use LuaSandboxTimeoutError;
+use Silicon\Module\SiliconCoreModule;
 
 class LuaContext
 {
@@ -28,7 +29,7 @@ class LuaContext
     /**
      * Options and settings for the context runtime
      */
-    private LuaContextOptions $options;
+    public LuaContextOptions $options;
 
     /**
      * The actual lua handle
@@ -78,6 +79,7 @@ class LuaContext
     private function initLuaContext()
     {
         $this->lua = new LuaSandbox();
+        $this->lua->disableProfiler();
 
         // set memory limit
         try {
@@ -91,6 +93,7 @@ class LuaContext
             }
 
             // register modules 
+            $this->register('silicon', new SiliconCoreModule);
             $this->register('console', $this->console);
             $this->registerContainerModules();
 
@@ -246,5 +249,29 @@ class LuaContext
     {
         // @phpstan-ignore-next-line
         return $this->lua->wrapPhpFunction($function);
+    }
+
+    /**
+     * @see LuaSandbox::getPeakMemoryUsage
+     */
+    public function getPeakMemoryUsage() : int 
+    {
+        return $this->lua->getPeakMemoryUsage();
+    }
+
+    /**
+     * @see LuaSandbox::getMemoryUsage
+     */
+    public function getMemoryUsage() : int 
+    {
+        return $this->lua->getMemoryUsage();
+    }
+
+    /**
+     * @see LuaSandbox::getCPUUsage
+     */
+    public function getCPUUsage() : int 
+    {
+        return $this->lua->getCPUUsage();
     }
 }
