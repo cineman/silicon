@@ -48,7 +48,8 @@ class SiliconRunScriptCommand extends Command
     /**
      * @author: Kevin Friend-> https://gist.github.com/liunian/9338301?permalink_comment_id=1804497#gistcomment-1804497
      */
-    public static function humanFilesize(int $size, int $precision = 2) : string {
+    public static function humanFilesize(int $size, int $precision = 2) : string 
+    {
         static $units = array('B','kB','MB','GB','TB','PB','EB','ZB','YB');
         $step = 1024;
         $i = 0;
@@ -56,9 +57,20 @@ class SiliconRunScriptCommand extends Command
             $size = $size / $step;
             $i++;
         }
-        return round($size, $precision).$units[$i];
+        return round($size, $precision) . $units[$i];
     }
     
+    public static function humanTinyTime(int $microseconds) : string
+    {
+        if ($microseconds < 1000) {
+            return $microseconds . 'μs';
+        }
+        elseif ($microseconds < 1000 * 1000) {
+            return round($microseconds / 1000) . 'ms';
+        }
+
+        return round($microseconds / (1000 * 1000), 2) . 's';
+    } 
 
     /**
      * The commands entry point
@@ -119,7 +131,6 @@ class SiliconRunScriptCommand extends Command
                 } else {
                     $this->cli->out(implode(PHP_EOL, $lines));
                 }
-
             }
         };
 
@@ -130,22 +141,27 @@ class SiliconRunScriptCommand extends Command
 
         $this->cli->out(sprintf('executing: <blue>%s</blue>', $luaPath));
         $this->cli->out(str_repeat('_', $twidth));
-
         
         $options = new LuaContextOptions;
 
         $console->cli = $this->cli;
         $console->twidth = $twidth;
 
-        $ctx = $runner->boot($options, $console);
-
         $luaCode = file_get_contents($luaPath) ?: '';
-        $ctx->eval($luaCode);
+        $result = $runner->run($luaCode, $options, $console);
 
         $this->cli->out(str_repeat('_', $twidth));
 
+        // print return values if there are any
+        if ($result->return) {
+            $this->cli->out('return: ' .  print_r($result->return));
+            $this->cli->out(str_repeat('_', $twidth));
+        }
+
         $padding = $this->cli->padding(20, ' ');
-        $padding->label('lua peak mem')->result(sprintf('<blue>%s</blue>', SiliconRunScriptCommand::humanFilesize($ctx->getPeakMemoryUsage())));
-        $padding->label('lua cpu')->result(sprintf('<blue>%d</blue>', $ctx->getCPUUsage()));
+        $padding->label('lua peak mem')->result(sprintf('<blue>%s</blue>', SiliconRunScriptCommand::humanFilesize($result->luaMemoryPeak)));
+        $padding->label('lua cpu')->result(sprintf('<blue>%d</blue>', $result->luaCpuUsage));
+        $padding->label('total mem')->result(sprintf('<blue>%s</blue>', SiliconRunScriptCommand::humanFilesize($result->totalMemory)));
+        $padding->label('took')->result(sprintf('<blue>%s</blue>', SiliconRunScriptCommand::humanTinyTime($result->totalTook)));
     }
 }
