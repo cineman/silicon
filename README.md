@@ -4,6 +4,14 @@
 
 Wrapper around the luaSandbox extension for Hydrogen.
 
+  * [Usage](#usage)
+    + [Running the examples](#running-the-examples)
+    + [Setup](#setup)
+    + [Running lua code](#running-lua-code)
+    + [Sandbox constraints](#sandbox-constraints)
+    + [Console](#console)
+    + [Defining custom modules](#defining-custom-modules)
+
 ## Usage 
 
 Silicon is built to be used with the ClanCats/Container which hydrogen is built around.
