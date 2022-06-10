@@ -92,6 +92,9 @@ class LuaContext
                 $this->lua->setCPULimit(false);
             }
 
+            // extends core
+            $this->extendCoreLibraries();
+
             // register modules 
             $this->register('silicon', new SiliconCoreModule);
             $this->register('console', $this->console);
@@ -136,6 +139,30 @@ class LuaContext
         // @phpstan-ignore-next-line
         $this->lua->loadBinary($preloadBin, 'preload')->call();
     } 
+
+    /**
+     * Adds a few helpful functions to the lua core library
+     * 
+     * @return void 
+     */
+    private function extendCoreLibraries()
+    {
+        /**
+         * Extends luas "math" library
+         */
+        $this->lua->registerLibrary('math', 
+        [
+            /**
+             * math.round(x, precision)
+             * 
+             * Lua standart library does only support ceil and floor, the php round function 
+             * is very helpful allowing to specify the precision
+             */
+            'round' => function($x, int $precision = 0) {
+                return [(float) round($x, $precision)];
+            }
+        ]);
+    }
 
     /**
      * Registers the given module with the given name in the current context

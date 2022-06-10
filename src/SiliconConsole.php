@@ -147,6 +147,9 @@ LUA;
             if (is_int($argument)) {
                 $buffer[] = 'int(' . $argument . ')';
             }
+            elseif (is_float($argument)) {
+                $buffer[] = 'float(' . $argument . ')';
+            }
             elseif (is_string($argument)) {
                 $buffer[] = 'string("' . $argument . '")';
             }

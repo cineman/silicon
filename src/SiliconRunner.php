@@ -49,7 +49,7 @@ class SiliconRunner
         // write stats
         $result->luaCpuUsage = $ctx->getCPUUsage();
         $result->luaMemoryPeak = $ctx->getPeakMemoryUsage();
-        $result->totalTook = (int) ((microtime(true) - $starttime) * 1000 * 1000); // ms
+        $result->totalTook = (int) ((microtime(true) - $starttime) * 1000 * 1000); // u
         $result->totalMemory = memory_get_usage() - $startmem;
 
         return $result;
