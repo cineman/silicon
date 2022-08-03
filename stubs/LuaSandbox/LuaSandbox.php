@@ -12,11 +12,11 @@ class LuaSandbox {
 
 	/**
 	 * Return the versions of LuaSandbox and Lua
-	 * @return array With two keys
+	 * @return array{LuaSandbox: string, Lua: string}
 	 *  - LuaSandbox: (string) LuaSandbox version
 	 *  - Lua: (string) Lua version
 	 */
-	public static function getVersionInfo() {
+	public static function getVersionInfo() : array {
 	}
 
 	/**
@@ -29,7 +29,7 @@ class LuaSandbox {
 	 *  traces
 	 * @return LuaSandboxFunction The compiled chunk
 	 */
-	public function loadString( $code, $chunkName = '' ) {
+	public function loadString( string $code, string $chunkName = '' ) : LuaSandboxFunction {
 	}
 
 	/**
@@ -41,7 +41,7 @@ class LuaSandbox {
 	 * @param string $chunkName Name for the loaded function.
 	 * @return LuaSandboxFunction
 	 */
-	public function loadBinary( $binary, $chunkName = '' ) {
+	public function loadBinary( string $binary, string $chunkName = '' ) : LuaSandboxFunction {
 	}
 
 	/**
@@ -51,21 +51,21 @@ class LuaSandbox {
 	 *
 	 * @param int $limit Memory limit in bytes
 	 */
-	public function setMemoryLimit( $limit ) {
+	public function setMemoryLimit( int $limit ) : void {
 	}
 
 	/**
 	 * Fetch the current memory usage of the Lua environment.
 	 * @return int Current memory usage in bytes.
 	 */
-	public function getMemoryUsage() {
+	public function getMemoryUsage() : int {
 	}
 
 	/**
 	 * Fetch the peak memory usage of the Lua environment.
 	 * @return int Peak memory usage in bytes.
 	 */
-	public function getPeakMemoryUsage() {
+	public function getPeakMemoryUsage() : int {
 	}
 
 	/**
@@ -82,7 +82,7 @@ class LuaSandbox {
 	 *
 	 * @param float|false $limit Limit in seconds, or false for no limit
 	 */
-	public function setCPULimit( $limit ) {
+	public function setCPULimit( float|false $limit ) : void {
 	}
 
 	/**
@@ -92,7 +92,7 @@ class LuaSandbox {
 	 *
 	 * @return float Current CPU time usage in seconds.
 	 */
-	public function getCPUUsage() {
+	public function getCPUUsage() : float {
 	}
 
 	/**
@@ -111,13 +111,13 @@ class LuaSandbox {
 	 *
 	 * @return bool true if the timer is now paused, false if not.
 	 */
-	public function pauseUsageTimer() {
+	public function pauseUsageTimer() : bool {
 	}
 
 	/**
 	 * Unpause the timer paused by LuaSandbox::pauseUsageTimer()
 	 */
-	public function unpauseUsageTimer() {
+	public function unpauseUsageTimer() : void {
 	}
 
 	/**
@@ -131,13 +131,13 @@ class LuaSandbox {
 	 * @param float $period Sampling period in seconds
 	 * @return bool Whether the profiler is enabled.
 	 */
-	public function enableProfiler( $period = 0.002 ) {
+	public function enableProfiler( float $period = 0.002 ) : bool {
 	}
 
 	/**
 	 * Disable the profiler.
 	 */
-	public function disableProfiler() {
+	public function disableProfiler() : void {
 	}
 
 	/**
@@ -155,9 +155,9 @@ class LuaSandbox {
 	 *   - LuaSandbox::PERCENT: Measure percentage of CPU time
 	 *
 	 * @param int $units Measurement unit constant.
-	 * @return array Profiler measurements, sorted in descending order.
+	 * @return array<mixed> Profiler measurements, sorted in descending order.
 	 */
-	public function getProfilerFunctionReport( $units = LuaSandbox::SECONDS ) {
+	public function getProfilerFunctionReport( int $units = LuaSandbox::SECONDS ) : array {
 	}
 
 	/**
@@ -173,10 +173,10 @@ class LuaSandbox {
 	 * see LuaSandboxFunction::call().
 	 *
 	 * @param string $name Variable name
-	 * @param mixed $args,... Arguments to the function
-	 * @return array|bool Return values from the function
+	 * @params mixed $args,... Arguments to the function
+	 * @return array<mixed>|bool Return values from the function
 	 */
-	public function callFunction( $name /* ... */ ) {
+	public function callFunction( string $name /* ... */ ) : array|bool {
 	}
 
 	/**
@@ -196,7 +196,7 @@ class LuaSandbox {
 	 * @param callable $function
 	 * @return LuaSandboxFunction
 	 */
-	public function wrapPhpFunction( callable $function ) {
+	public function wrapPhpFunction( callable $function ) : LuaSandboxFunction {
 	}
 
 	/**
@@ -214,8 +214,8 @@ class LuaSandbox {
 	 * see LuaSandboxFunction::call() and LuaSandbox::wrapPhpFunction().
 	 *
 	 * @param string $libName Library name
-	 * @param array $functions As above
+	 * @param array<mixed> $functions As above
 	 */
-	public function registerLibrary( $libName, array $functions ) {
+	public function registerLibrary( string $libName, array $functions ) : void {
 	}
 }

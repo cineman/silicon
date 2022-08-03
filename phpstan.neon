@@ -2,3 +2,7 @@ parameters:
     level: 8
     paths:
         - src
+    stubFiles:
+        - stubs/LuaSandbox/Exceptions.php
+        - stubs/LuaSandbox/LuaSandbox.php
+        - stubs/LuaSandbox/LuaSandboxFunction.php

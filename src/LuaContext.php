@@ -263,7 +263,7 @@ class LuaContext
             throw new SiliconMemoryExhaustionException($e->getMessage(), $e->getCode(), $e);
         }
 
-        if ($result === false) return null;
+        if (!is_array($result)) return null;
         return $result;
     }
 
@@ -297,7 +297,7 @@ class LuaContext
     /**
      * @see LuaSandbox::getCPUUsage
      */
-    public function getCPUUsage() : int 
+    public function getCPUUsage() : float 
     {
         return $this->lua->getCPUUsage();
     }

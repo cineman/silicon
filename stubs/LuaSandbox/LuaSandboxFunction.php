@@ -54,7 +54,7 @@ class LuaSandboxFunction {
 	 * which case an empty array is returned.
 	 *
 	 * @param mixed $args Arguments passed to the function.
-	 * @return array|false Return values from the function.
+	 * @return array<mixed>|false Return values from the function.
 	 */
 	public function call(...$args) {
 	}
