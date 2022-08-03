@@ -12,11 +12,25 @@ class SiliconRunner
     private Container $container;
 
     /**
+     * A runner can have a default preload cache injected into each context if the 
+     * options have no cache assigned to it.
+     */
+    private ?SiliconPreloadCache $defaultPreloadCache = null;
+
+    /**
      * Script runner constructor
      */
     public function __construct(Container $container)
     {
         $this->container = $container;
+    }
+
+    /**
+     * Allows setting a default preloading cache for the contexts
+     */
+    public function setDefaultPreloadCache(SiliconPreloadCache $cache) : void
+    {
+        $this->defaultPreloadCache = $cache;
     }
     
     /**
@@ -26,6 +40,10 @@ class SiliconRunner
     {
         if (is_null($options)) {
             $options = new LuaContextOptions();
+        }
+
+        if (is_null($options->preloadCache)) {
+            $options->preloadCache = $this->defaultPreloadCache;
         }
 
         return new LuaContext($options, $console, $this->container);

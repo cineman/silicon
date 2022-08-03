@@ -29,8 +29,9 @@ $ bash run-example.sh ./examples/01_simple_eval.php
 First bind the runner to the container:
 
 ```php
+@silicon.runner: @silicon
 @silicon: Silicon\SiliconRunner(@container)
-    - setPreloadCache(@silicon.cache)
+    - setDefaultPreloadCache(@silicon.cache)
 
 @silicon.cache: Silicon\SiliconPreloadCache(:const.PATH_CACHE)
 ```
