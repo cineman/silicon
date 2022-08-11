@@ -33,6 +33,7 @@ class SiliconConsole implements SiliconModuleInterface
     public function getExposedFunctions(LuaContext $ctx) : ?array
     {
         return [
+            'print' => [$this, 'printInfo'],
             'log' => [$this, 'logInfo'],
             'warn' => [$this, 'logWarn'],
             'error' => [$this, 'logError'],
@@ -86,6 +87,16 @@ LUA;
     public function all() : array
     {
         return $this->consoleData;
+    }
+
+    /**
+     * Prints the given string into the console
+     * 
+     * @param string                $string
+     */
+    public function printInfo(string $string) : void
+    {
+        $this->write(self::LOG_TYPE_INFO, $string);
     }
 
     /**
@@ -163,6 +174,9 @@ LUA;
         foreach($args as $argument) {
             if (is_int($argument)) {
                 $buffer[] = 'int(' . $argument . ')';
+            }
+            elseif (is_bool($argument)) {
+                $buffer[] = 'bool(' . var_export($argument, true) . ')';
             }
             elseif (is_float($argument)) {
                 $buffer[] = 'float(' . $argument . ')';

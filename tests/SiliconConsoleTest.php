@@ -57,4 +57,15 @@ class SiliconConsoleTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(SiliconConsole::LOG_TYPE_INFO, $messages[0][0]);
         $this->assertEquals('int(69), int(420)', $messages[0][1]);
     }
+
+    public function testPrint()
+    {   
+        $console = $this->createConsole();
+        $console->printInfo("Testing Fooo");
+
+        $messages = $console->all();
+        
+        $this->assertEquals(SiliconConsole::LOG_TYPE_INFO, $messages[0][0]);
+        $this->assertEquals('Testing Fooo', $messages[0][1]);
+    }
 }

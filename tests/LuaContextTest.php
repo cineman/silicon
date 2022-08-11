@@ -32,6 +32,7 @@ class LuaContextTest extends \PHPUnit\Framework\TestCase
         // scalarish
         $luactx->eval('console.log("Foo")');
         $luactx->eval('console.log("Bar", 1, 2)');
+        $luactx->eval('console.log(true, false)');
 
         // arrays
         $luactx->eval('console.log({"A", "B"})');
@@ -45,11 +46,12 @@ class LuaContextTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals('string("Foo")', $logs[0][1]);
         $this->assertEquals('string("Bar"), int(1), int(2)', $logs[1][1]);
+        $this->assertEquals('bool(true), bool(false)', $logs[2][1]);
         $this->assertEquals(
 '[2]{
   1: string("A")
   2: string("B")
-}', $logs[2][1]);
+}', $logs[3][1]);
 
 $this->assertEquals(
 '[3]{
@@ -60,12 +62,12 @@ $this->assertEquals(
     3: int(3)
   }
   3: string("C")
-}', $logs[3][1]);
+}', $logs[4][1]);
 
 
         $this->assertEquals(SiliconConsole::LOG_TYPE_INFO, $logs[0][0]);
-        $this->assertEquals(SiliconConsole::LOG_TYPE_WARNING, $logs[4][0]);
-        $this->assertEquals(SiliconConsole::LOG_TYPE_ERROR, $logs[5][0]);
+        $this->assertEquals(SiliconConsole::LOG_TYPE_WARNING, $logs[5][0]);
+        $this->assertEquals(SiliconConsole::LOG_TYPE_ERROR, $logs[6][0]);
     }
 
     public function testEvalSyntaxError()
