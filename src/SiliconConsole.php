@@ -2,6 +2,8 @@
 
 namespace Silicon;
 
+use Silicon\Exception\SiliconRuntimeDebugBreakpointException;
+
 class SiliconConsole implements SiliconModuleInterface
 {
     /**
@@ -34,6 +36,18 @@ class SiliconConsole implements SiliconModuleInterface
             'log' => [$this, 'logInfo'],
             'warn' => [$this, 'logWarn'],
             'error' => [$this, 'logError'],
+
+            /**
+             * console.debug(...value)
+             * 
+             * Console logs the given value. and stops the lua execution.
+             */
+            'debug' => function(...$args) {
+                $this->logInfo(...$args);
+                $breakpoint = new SiliconRuntimeDebugBreakpointException("Debug breakpoint");
+                $breakpoint->setBreakpointValues($args);
+                throw $breakpoint;
+            },
         ];
     }
 
@@ -49,6 +63,9 @@ class SiliconConsole implements SiliconModuleInterface
         return <<<'LUA'
 function log(...)
     console.log(arg)
+end
+function debug(...)
+    console.debug(arg)
 end
 LUA;
     }

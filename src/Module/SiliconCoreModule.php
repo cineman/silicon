@@ -28,7 +28,7 @@ class SiliconCoreModule implements SiliconModuleInterface
                 }
 
                 usleep($microseconds);
-            }
+            },
         ];
     }
 
