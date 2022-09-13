@@ -134,5 +134,73 @@ LUA;
         $this->assertEquals(['B', 'BB'], $result[1]);
     }
     
+    public function testEvalSum()
+    {   
+        $luactx = $this->createContext();
+        $code = <<<'LUA'
+local a = {1, 2, 3}
+return array.sum(a)
+LUA;    
+        $result = $luactx->eval($code);
 
+        $this->assertEquals(6, $result[0]);
+    }
+
+    public function testEvalAverage()
+    {   
+        $luactx = $this->createContext();
+        $code = <<<'LUA'
+local a = {1, 2, 3}
+return array.average(a)
+LUA;    
+        $result = $luactx->eval($code);
+
+        $this->assertEquals(2, $result[0]);
+    }
+
+    public function testEvalMin()
+    {   
+        $luactx = $this->createContext();
+        $code = <<<'LUA'
+local a = {1, 2, 3}
+return array.min(a)
+LUA;    
+        $result = $luactx->eval($code);
+
+        $this->assertEquals(1, $result[0]);
+    }
+
+    public function testEvalMax()
+    {   
+        $luactx = $this->createContext();
+        $code = <<<'LUA'
+local a = {1, 2, 3}
+return array.max(a)
+LUA;    
+        $result = $luactx->eval($code);
+
+        $this->assertEquals(3, $result[0]);
+    }
+
+    public function testEvalMedian()
+    {   
+        $luactx = $this->createContext();
+        $code = <<<'LUA'
+local a = {1, 2, 3, 4, 5, 6, 7, 8, 9}
+return array.median(a)
+LUA;    
+        $result = $luactx->eval($code);
+
+        $this->assertEquals(5, $result[0]);
+
+
+        // now test even number of elements
+        $code = <<<'LUA'
+local a = {1, 2, 3, 4, 5, 6, 7, 8}
+return array.median(a)
+LUA;    
+        $result = $luactx->eval($code);
+
+        $this->assertEquals(4.5, $result[0]);
+    }
 }

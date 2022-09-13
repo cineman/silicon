@@ -60,6 +60,59 @@ class SiliconArrayModule implements SiliconModuleInterface
             'column' => function(array $array, string $column) {
                 return [array_column($array, $column)];
             },
+
+            /**
+             * array.sum(array)
+             *
+             * Returns the sum of the given array values
+             */
+            'sum' => function(array $array) {
+                return [array_sum($array)];
+            },
+
+            /**
+             * array.average(array)
+             *
+             * Returns the average of the given array values
+             */
+            'average' => function(array $array) {
+                return [array_sum($array) / count($array)];
+            },
+
+            /**
+             * array.min(array)
+             *
+             * Returns the minimum value of the given array
+             */
+            'min' => function(array $array) {
+                return [min($array)];
+            },
+
+            /**
+             * array.max(array)
+             *
+             * Returns the maximum value of the given array
+             */
+            'max' => function(array $array) {
+                return [max($array)];
+            },
+
+            /**
+             * array.median(array)
+             * 
+             * Returns the median value of the given array
+             */
+            'median' => function(array $array) {
+                $count = count($array);
+                $middle = floor($count / 2);
+                sort($array, SORT_NUMERIC);
+                $median = $array[$middle];
+                if ($count % 2 == 0) {
+                    $median = ($median + $array[$middle - 1]) / 2;
+                }
+                return [$median];
+            },
+
         ];
     }
 
