@@ -22,6 +22,9 @@ class SiliconStringModule implements SiliconModuleInterface
              * Explodes the given string into an array using the given delimiter
              */
             'explode' => function(string $string, string $delimiter) {
+                if (strlen($delimiter) == 0) {
+                    throw new SiliconRuntimeException("Delimiter cannot be empty");
+                }
                 return [explode($delimiter, $string)];
             },
 

@@ -24,6 +24,33 @@ class SiliconDateModule implements SiliconModuleInterface
             'now' => function() {
                 return [time()];
             },
+
+            /**
+             * date.format(timestamp, format)
+             * 
+             * Formats the given timestamp using the given format
+             */
+            'format' => function(int $timestamp, string $format) {
+                return [date($format, $timestamp)];
+            },
+
+            /**
+             * date.parse(string, format)
+             * 
+             * Parses the given string using the given format, will return false if the string cannot be parsed
+             */
+            'parse' => function(string $string, ?string $format = null) {
+                if ($format === null) {
+                    return [strtotime($string)];
+                } else {
+                    // use DateTimeImmutable to parse the date
+                    $dt = \DateTimeImmutable::createFromFormat($format, $string);
+                    if ($dt === false) {
+                        return [false];
+                    }
+                    return [$dt->getTimestamp()];
+                }
+            },
             
         ];
     }
