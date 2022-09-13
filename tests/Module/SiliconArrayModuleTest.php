@@ -203,4 +203,31 @@ LUA;
 
         $this->assertEquals(4.5, $result[0]);
     }
+
+    public function testEvalContains()
+    {   
+        $luactx = $this->createContext();
+        $code = <<<'LUA'
+local a = {1, 2, 3}
+return array.contains(a, 1), array.contains(a, 4)
+LUA;    
+        $result = $luactx->eval($code);
+
+        $this->assertEquals(true, $result[0]);
+        $this->assertEquals(false, $result[1]);
+    }
+
+
+    public function testEvalHas()
+    {   
+        $luactx = $this->createContext();
+        $code = <<<'LUA'
+local a = {a = 'A', b = 'B'}
+return array.has(a, 'a'), array.has(a, 'c')
+LUA;    
+        $result = $luactx->eval($code);
+
+        $this->assertEquals(true, $result[0]);
+        $this->assertEquals(false, $result[1]);
+    }
 }

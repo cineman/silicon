@@ -113,6 +113,24 @@ class SiliconArrayModule implements SiliconModuleInterface
                 return [$median];
             },
 
+
+            /**
+             * array.contains(array, value)
+             * 
+             * Returns true if the given array contains the given value
+             */
+            'contains' => function(array $array, $value) {
+                return [in_array($value, $array)];
+            },
+
+            /**
+             * array.has(array, key)
+             *
+             * Returns true if the given array has the given key
+             */
+            'has' => function(array $array, $key) {
+                return [array_key_exists($key, $array)];
+            },
         ];
     }
 
