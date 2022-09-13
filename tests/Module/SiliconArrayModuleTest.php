@@ -230,4 +230,38 @@ LUA;
         $this->assertEquals(true, $result[0]);
         $this->assertEquals(false, $result[1]);
     }
+
+    public function testEvalGroupBy()
+    {   
+        $luactx = $this->createContext();
+        $code = <<<'LUA'
+local cars = {
+    {name = 'S60' , brand = 'Volvo'},
+    {name = 'S80' , brand = 'Volvo'},
+    {name = 'XC60', brand = 'Volvo'},
+    {name = 'RS6' , brand = 'Audi'},
+    {name = 'RS7' , brand = 'Audi'},
+    {name = 'F150', brand = 'Ford'},
+    {name = 'F250', brand = 'Ford'},
+}
+return array.groupBy(cars, 'brand')
+LUA;    
+        $result = $luactx->eval($code);
+
+        $this->assertEquals([
+            'Volvo' => [
+                ['name' => 'S60' , 'brand' => 'Volvo'],
+                ['name' => 'S80' , 'brand' => 'Volvo'],
+                ['name' => 'XC60', 'brand' => 'Volvo'],
+            ],
+            'Audi' => [
+                ['name' => 'RS6' , 'brand' => 'Audi'],
+                ['name' => 'RS7' , 'brand' => 'Audi'],
+            ],
+            'Ford' => [
+                ['name' => 'F150', 'brand' => 'Ford'],
+                ['name' => 'F250', 'brand' => 'Ford'],
+            ],
+        ], $result[0]);
+    }
 }

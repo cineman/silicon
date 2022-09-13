@@ -131,6 +131,22 @@ class SiliconArrayModule implements SiliconModuleInterface
             'has' => function(array $array, $key) {
                 return [array_key_exists($key, $array)];
             },
+
+            /**
+             * array.groupBy(array, key)
+             * 
+             * Groups the given array of arrays by the given key, if the key is not found in the array, it is ignored
+             */
+            'groupBy' => function(array $array, string $key) {
+                $result = [];
+                foreach ($array as $item) {
+                    if (!array_key_exists($key, $item)) {
+                        continue;
+                    }
+                    $result[$item[$key]][] = $item;
+                }
+                return [$result];
+            },
         ];
     }
 

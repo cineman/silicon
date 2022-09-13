@@ -51,7 +51,15 @@ class SiliconDateModule implements SiliconModuleInterface
                     return [$dt->getTimestamp()];
                 }
             },
-            
+
+            /**
+             * date.diff(timestamp1, timestamp2)
+             *
+             * Returns the difference between the two timestamps in seconds
+             */
+            'diff' => function(int $timestamp1, int $timestamp2) {
+                return [abs($timestamp1 - $timestamp2)];
+            },
         ];
     }
 

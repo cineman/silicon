@@ -79,4 +79,23 @@ LUA;
         $this->assertFalse($result[0]);
     }
 
+    public function testEvalDiff()
+    {   
+        $luactx = $this->createContext();
+        $code = <<<'LUA'
+return date.diff(1600000000, 1600000001)
+LUA;    
+        $result = $luactx->eval($code);
+
+        $this->assertEquals(1, $result[0]);
+
+        // test with a negative value
+        $code = <<<'LUA'
+return date.diff(1600000001, 1600000000)
+LUA;    
+        $result = $luactx->eval($code);
+
+        $this->assertEquals(1, $result[0]);
+    }
+
 }
