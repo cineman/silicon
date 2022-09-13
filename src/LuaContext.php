@@ -9,8 +9,6 @@ use Silicon\Exception\SiliconMemoryExhaustionException;
 use Silicon\Exception\SiliconRuntimeException;
 use ClanCats\Container\Container;
 
-use Hydrogen\HTTP\Payload;
-
 use LuaSandbox;
 use LuaSandboxFunction;
 use LuaSandboxMemoryError;
@@ -19,6 +17,8 @@ use LuaSandboxSyntaxError;
 use LuaSandboxTimeoutError;
 use Silicon\Module\SiliconArrayModule;
 use Silicon\Module\SiliconCoreModule;
+use Silicon\Module\SiliconDateModule;
+use Silicon\Module\SiliconStringModule;
 
 class LuaContext
 {
@@ -102,6 +102,12 @@ class LuaContext
 
             if ($this->options->libArrayEnabled) {
                 $this->register('array', new SiliconArrayModule);
+            }
+            if ($this->options->libStringEnabled) {
+                $this->register('string', new SiliconStringModule);
+            }
+            if ($this->options->libDateEnabled) {
+                $this->register('date', new SiliconDateModule);
             }
 
             $this->registerContainerModules();

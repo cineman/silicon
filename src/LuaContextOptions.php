@@ -49,4 +49,14 @@ class LuaContextOptions
      * Boolean if the "array" silicon library should be loaded
      */
     public bool $libArrayEnabled = true;
+
+    /**
+     * Boolean if the "string" silicon library should be loaded
+     */
+    public bool $libStringEnabled = true;
+
+    /**
+     * Boolean if the "date" silicon library should be loaded
+     */
+    public bool $libDateEnabled = true;
 }
