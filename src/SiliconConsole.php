@@ -43,10 +43,13 @@ class SiliconConsole implements SiliconModuleInterface
              * 
              * Console logs the given value. and stops the lua execution.
              */
-            'debug' => function(...$args) {
+            'debug' => function($args) {
+
+                // always drop the argument count, not needed in PHP
+                unset($args['n']);
                 $this->logInfo(...$args);
                 $breakpoint = new SiliconRuntimeDebugBreakpointException("Debug breakpoint");
-                $breakpoint->setBreakpointValues($args);
+                $breakpoint->setBreakpointValues(array_values($args));
                 throw $breakpoint;
             },
         ];

@@ -5,6 +5,7 @@ namespace Silicon\Tests;
 use Silicon\Exception\SiliconCPUTimeoutException;
 use Silicon\Exception\SiliconLuaSyntaxException;
 use Silicon\Exception\SiliconMemoryExhaustionException;
+use Silicon\Exception\SiliconRuntimeDebugBreakpointException;
 use Silicon\Exception\SiliconRuntimeException;
 use Silicon\SiliconConsole;
 use Silicon\LuaContext;
@@ -149,5 +150,32 @@ LUA;
         ]);
 
         $this->assertEquals([1, 2, 3], $internalArr);
+    }
+
+    public function testDebug()
+    {
+        $luactx = $this->createContext();
+        $code = <<<'LUA'
+debug('foo')
+LUA;    
+        try {
+            $luactx->eval($code);
+        } catch (SiliconRuntimeDebugBreakpointException $e) {
+            $this->assertEquals(['foo'], $e->getBreakpointValues());
+        }
+
+        $this->assertEquals('string("foo")', $luactx->console()->all()[0][1]);
+
+        // test with multiple arguments
+        $code = <<<'LUA'
+debug('foo', 'bar', 1, 2, 3)
+LUA;    
+        try {
+            $luactx->eval($code);
+        } catch (SiliconRuntimeDebugBreakpointException $e) {
+            $this->assertEquals(['foo', 'bar', 1, 2, 3], $e->getBreakpointValues());
+        }
+
+        $this->assertEquals('string("foo"), string("bar"), int(1), int(2), int(3)', $luactx->console()->all()[1][1]);
     }
 }
