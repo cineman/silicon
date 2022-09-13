@@ -17,6 +17,7 @@ use LuaSandboxMemoryError;
 use LuaSandboxRuntimeError;
 use LuaSandboxSyntaxError;
 use LuaSandboxTimeoutError;
+use Silicon\Module\SiliconArrayModule;
 use Silicon\Module\SiliconCoreModule;
 
 class LuaContext
@@ -98,6 +99,11 @@ class LuaContext
             // register modules 
             $this->register('silicon', new SiliconCoreModule);
             $this->register('console', $this->console);
+
+            if ($this->options->libArrayEnabled) {
+                $this->register('array', new SiliconArrayModule);
+            }
+
             $this->registerContainerModules();
 
             // after module registration run preload

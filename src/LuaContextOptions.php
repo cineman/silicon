@@ -44,4 +44,9 @@ class LuaContextOptions
      * Custom preload cache instance to optimize preload loading
      */
     public ?SiliconPreloadCache $preloadCache = null;
+
+    /**
+     * Boolean if the "array" silicon library should be loaded
+     */
+    public bool $libArrayEnabled = true;
 }
