@@ -264,4 +264,25 @@ LUA;
             ],
         ], $result[0]);
     }
+
+    public function testEvalFlatten()
+    {   
+        $luactx = $this->createContext();
+        $code = <<<'LUA'
+local a = {a = 'A', b = 'B', c = {d = 'D', e = 'E'}}
+return array.flatten(a)
+LUA;    
+        $result = $luactx->eval($code);
+
+        $this->assertEquals(['a' => 'A', 'b' => 'B', 'c.d' => 'D', 'c.e' => 'E'], $result[0]);
+
+        // test with numeric keys
+        $code = <<<'LUA'
+local a = {a = 'A', b = 'B', c = {'D', 'E', 'F'}}
+return array.flatten(a)
+LUA;    
+        $result = $luactx->eval($code);
+
+        $this->assertEquals(['a' => 'A', 'b' => 'B', 'c.1' => 'D', 'c.2' => 'E', 'c.3' => 'F'], $result[0]);
+    }
 }

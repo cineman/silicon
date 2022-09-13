@@ -147,7 +147,54 @@ class SiliconArrayModule implements SiliconModuleInterface
                 }
                 return [$result];
             },
+
+            /**
+             * array.flatten(array)
+             * 
+             * Flattens the a deep array structure into a flat assoc one
+             */
+            'flatten' => function(array $array, string $delimiter = '.') {
+                return [$this->flattenArray($array, $delimiter)];
+            },
         ];
+    }
+
+    /**
+     * Flatten a deep array structure into a flat assoc one
+     * 
+     * example
+     * from:
+     * {
+     *   "foo": {
+     *     "bar": "baz",
+     *     "bar2": {
+     *      "baz": "foo"
+     *     }
+     *   }
+     * }
+     * 
+     * to:
+     * {
+     *   "foo.bar": "baz",
+     *   "foo.bar2.baz": "foo"
+     * }
+     * 
+     * @param array<mixed> $array
+     * @param string $delimiter The delimiter to use for the keys
+     * @param string $prefix The prefix to use for the keys
+     * @return array<mixed>
+     */
+    private function flattenArray(array $array, string $delimiter = '.', string $prefix = '') : array
+    {
+        $result = [];
+        foreach ($array as $key => $value) {
+            if (is_array($value)) {
+                $result = array_merge($result, $this->flattenArray($value, $delimiter, $prefix . $key . $delimiter));
+            } else {
+                $result[$prefix . $key] = $value;
+            }
+        }
+        return $result;
     }
 
     /**
