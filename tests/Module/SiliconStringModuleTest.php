@@ -75,4 +75,56 @@ LUA;
         $this->assertEquals('hello universe', $result[0]);
     }
 
+    public function testEvalKFloor()
+    {   
+        $luactx = $this->createContext();
+        $code = <<<'LUA'
+return 
+    string.kfloor(123),
+    string.kfloor(1234),
+    string.kfloor(12345),
+    string.kfloor(123456),
+    string.kfloor(1234567),
+    string.kfloor(12345678),
+    string.kfloor(123456789),
+    string.kfloor(1234567890)
+LUA;    
+        $result = $luactx->eval($code);
+
+        $this->assertEquals('123', $result[0]);
+        $this->assertEquals('1K', $result[1]);
+        $this->assertEquals('12K', $result[2]);
+        $this->assertEquals('123K', $result[3]);
+        $this->assertEquals('1M', $result[4]);
+        $this->assertEquals('12M', $result[5]);
+        $this->assertEquals('123M', $result[6]);
+        $this->assertEquals('1B', $result[7]);
+    }
+
+    public function testEvalHumanBytes()
+    {   
+        $luactx = $this->createContext();
+        $code = <<<'LUA'
+return 
+    string.humanbytes(123),
+    string.humanbytes(1234),
+    string.humanbytes(12345),
+    string.humanbytes(123456),
+    string.humanbytes(1234567),
+    string.humanbytes(12345678),
+    string.humanbytes(123456789),
+    string.humanbytes(1234567890)
+LUA;    
+        $result = $luactx->eval($code);
+
+        $this->assertEquals('123B', $result[0]);
+        $this->assertEquals('1.21KB', $result[1]);
+        $this->assertEquals('12.06KB', $result[2]);
+        $this->assertEquals('120.56KB', $result[3]);
+        $this->assertEquals('1.18MB', $result[4]);
+        $this->assertEquals('11.77MB', $result[5]);
+        $this->assertEquals('117.74MB', $result[6]);
+        $this->assertEquals('1.15GB', $result[7]);
+    }
+
 }
