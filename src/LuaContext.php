@@ -50,6 +50,14 @@ class LuaContext
     private array $registeredModules = [];
 
     /**
+     * A generic parameter bag for passing data between modules
+     * These paramters are not exposed to the lua runtime
+     * 
+     * @var array<string, mixed>
+     */
+    private array $parameters = [];
+
+    /**
      * Constructor
      * 
      * @param ?SiliconConsole        $console You can pass a custom console to get realtime feedback from the runtime
@@ -62,6 +70,33 @@ class LuaContext
         if (!$console) $console = new SiliconConsole;
         $this->console = $console;
         $this->initLuaContext();
+    }
+
+    /**
+     * Set a generic paramter in the contexts paramter bag
+     * These paramters are not exposed to the lua runtime and are only used for internal 
+     * communication between modules.
+     * 
+     * @param string $key The key paramter name
+     * @param mixed $value The value of the paramter
+     */
+    public function setParameter(string $key, $value) : void
+    {
+        $this->parameters[$key] = $value;
+    }
+
+    /**
+     * Get a generic paramter from the contexts paramter bag
+     * These paramters are not exposed to the lua runtime and are only used for internal 
+     * communication between modules.
+     * 
+     * @param string $key The key paramter name
+     * @param mixed $default The default value if the paramter is not set
+     * @return mixed The value of the paramter
+     */
+    public function getParameter(string $key, $default = null) : mixed
+    {
+        return $this->parameters[$key] ?? $default;
     }
 
     /**

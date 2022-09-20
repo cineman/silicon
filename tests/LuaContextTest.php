@@ -178,4 +178,17 @@ LUA;
 
         $this->assertEquals('string("foo"), string("bar"), int(1), int(2), int(3)', $luactx->console()->all()[1][1]);
     }
+
+    public function testSetAndGetParamters()
+    {
+        $luactx = $this->createContext();
+        
+        $this->assertNull($luactx->getParameter('foo'));
+        $luactx->setParameter('foo', 'bar');
+        $this->assertEquals('bar', $luactx->getParameter('foo'));
+        $luactx->setParameter('foo', 'baz');
+        $this->assertEquals('baz', $luactx->getParameter('foo'));
+        $luactx->setParameter('foo', null);
+        $this->assertNull($luactx->getParameter('foo'));
+    }
 }
