@@ -94,7 +94,7 @@ class LuaContext
      * @param mixed $default The default value if the paramter is not set
      * @return mixed The value of the paramter
      */
-    public function getParameter(string $key, $default = null) : mixed
+    public function getParameter(string $key, $default = null)
     {
         return $this->parameters[$key] ?? $default;
     }
