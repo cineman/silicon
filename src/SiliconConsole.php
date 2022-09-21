@@ -85,7 +85,7 @@ LUA;
     /**
      * Returns all log messages 
      * 
-     * @return array<array<int, string, int>>>
+     * @return array<array{0: int, 1: string, 2: int}>>
      */
     public function all() : array
     {
