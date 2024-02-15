@@ -43,12 +43,18 @@ class SiliconConsole implements SiliconModuleInterface
              * 
              * Console logs the given value. and stops the lua execution.
              */
-            'debug' => function($args) {
+            'debug' => function($args, $trace) {
+
+                // we only really care about the second line in the trace
+                $trace = explode("\n", $trace)[2] ?? '';
+                // try to parse the line number
+                preg_match("/\[string \"SiliconEval\"\]:([0-9]+):/", $trace, $matches);
+                $line = $matches[1] ?? 0;
 
                 // always drop the argument count, not needed in PHP
                 unset($args['n']);
                 $this->logInfo(...$args);
-                $breakpoint = new SiliconRuntimeDebugBreakpointException("Debug breakpoint");
+                $breakpoint = new SiliconRuntimeDebugBreakpointException("Debug breakpoint [line: $line]");
                 $breakpoint->setBreakpointValues(array_values($args));
                 throw $breakpoint;
             },
@@ -68,8 +74,10 @@ class SiliconConsole implements SiliconModuleInterface
 function log(...)
     console.log(arg)
 end
+_debug = debug
 function debug(...)
-    console.debug(arg)
+    local trace = _debug.traceback()
+    console.debug(arg, trace)
 end
 LUA;
     }
