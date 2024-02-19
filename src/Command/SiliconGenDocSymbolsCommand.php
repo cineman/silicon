@@ -91,7 +91,13 @@ class SiliconGenDocSymbolsCommand extends Command
     {
         return glob($path . '/*.md') ?: [];
     }
-
+    
+    /**
+     * Converts the symbols to an array
+     * 
+     * @param array<SiliconSymbol> $symbols
+     * @return array<mixed>
+     */
     private function convertSymbolsToArray(array $symbols) : array
     {
         $data = [];
@@ -150,7 +156,7 @@ class SiliconGenDocSymbolsCommand extends Command
 
         // prcess the files
         foreach($mdFiles as $mdFile) {
-            $this->cli->info("Processing file: {$mdFile}");
+            $this->info("Processing file: {$mdFile}");
             $symbols = array_merge($symbols, $this->processFile($mdFile));
         }
 
@@ -159,13 +165,20 @@ class SiliconGenDocSymbolsCommand extends Command
             throw new SiliconDocGenException("The output path '{$outputPath}' is not writable.");
         }
 
-        $this->cli->info("Writing symbols to: {$outputPath}");
+        $this->info("Writing symbols to: {$outputPath}");
 
         // convert to json
         $symbolData = $this->convertSymbolsToArray($symbols);
         $json = json_encode($symbolData, JSON_PRETTY_PRINT);
 
         $this->cli->json($symbolData);
+        
+        // wrire to file
+        if (!file_put_contents($outputPath, $json)) {
+            throw new SiliconDocGenException("Could not write the symbols to: {$outputPath}");
+        }
+
+        $this->info("Symbols written to: {$outputPath}");
     }
 
     /**
