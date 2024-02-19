@@ -4,6 +4,7 @@
  * ----------------------------------------------------------
  */
 // override :hydrogen.maker.command_namespace: 'Silicon/Command'
+:silicon.output_path: '{resources}/silicon/docs/symbols.json'
 
 /**
  * Commands
@@ -12,4 +13,9 @@
  */
 @silicon.command.run_script: Silicon\Command\SiliconRunScriptCommand(@container)
 	= command: 'silicon:run'
+
+@silicon.command.build_doc_symbols: Silicon\Command\SiliconGenDocSymbolsCommand()
+    = command: 'silicon:docs.build_symbols'
+    - setDefaultOutputPath(:silicon.output_path)
+    - addDefaultPath('{silicon.root}/docs/functions')
 
