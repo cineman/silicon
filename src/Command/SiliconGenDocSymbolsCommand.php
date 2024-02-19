@@ -49,17 +49,33 @@ class SiliconGenDocSymbolsCommand extends Command
             'prefix' => 'o',
             'description' => "The path to the output file. If not set it will be written to the default output path.",
             'castTo' => 'string'
+        ],
+        'print' => [
+            'prefix' => 'p',
+            'description' => "Prints the symbols as json to the console.",
+            'castTo' => 'bool',
+            'noValue' => true
         ]
     ];
+
+    /**
+     * @return array<string, string>
+     */
+    private function getPathVars() : array
+    {
+        return [
+            '{silicon.root}' => __DIR__ . '/../..',
+            '{resources}' => defined('PATH_RESOURCES') ? PATH_RESOURCES : __DIR__ . '/../../resources',
+            '{root}' => defined('PATH_ROOT') ? PATH_ROOT : __DIR__ . '/../..'
+        ];
+    }
 
     /**
      * Adds a default path to look for the .md files
      */
     public function addDefaultPath(string $path) : void
     {
-        foreach([
-            '{silicon.root}' => __DIR__ . '/../..',
-        ] as $key => $value) {
+        foreach($this->getPathVars() as $key => $value) {
             $path = str_replace($key, $value, $path);
         }
 
@@ -71,11 +87,7 @@ class SiliconGenDocSymbolsCommand extends Command
      */
     public function setDefaultOutputPath(string $path) : void
     {
-        $resourcePath = defined('PATH_RESOURCES') ? PATH_RESOURCES : __DIR__ . '/../../resources';
-
-        foreach([
-            '{resources}' => $resourcePath
-        ] as $key => $value) {
+        foreach($this->getPathVars() as $key => $value) {
             $path = str_replace($key, $value, $path);
         }
 
@@ -171,7 +183,9 @@ class SiliconGenDocSymbolsCommand extends Command
         $symbolData = $this->convertSymbolsToArray($symbols);
         $json = json_encode($symbolData, JSON_PRETTY_PRINT);
 
-        $this->cli->json($symbolData);
+        if ($this->cli->arguments->get('print')) {
+            $this->cli->json($symbolData);
+        }
         
         // wrire to file
         if (!file_put_contents($outputPath, $json)) {
