@@ -45,6 +45,16 @@ class SiliconConsole implements SiliconModuleInterface
              */
             'debug' => function($args, $trace) {
 
+
+                for ($i = 1; $i <= $args['n']; $i++) {
+                    if (!isset($args[$i])) {
+                        $args[$i] = null;
+                    }
+                }
+
+                // sort by array index
+                ksort($args);
+
                 // we only really care about the second line in the trace
                 $trace = explode("\n", $trace)[2] ?? '';
                 // try to parse the line number
@@ -53,9 +63,10 @@ class SiliconConsole implements SiliconModuleInterface
 
                 // always drop the argument count, not needed in PHP
                 unset($args['n']);
+                $args = array_values($args);
                 $this->logInfo(...$args);
                 $breakpoint = new SiliconRuntimeDebugBreakpointException("Debug breakpoint [line: $line]");
-                $breakpoint->setBreakpointValues(array_values($args));
+                $breakpoint->setBreakpointValues($args);
                 throw $breakpoint;
             },
         ];
@@ -194,6 +205,9 @@ LUA;
             }
             elseif (is_string($argument)) {
                 $buffer[] = 'string("' . $argument . '")';
+            }
+            elseif (is_null($argument)) {
+                $buffer[] = 'null';
             }
             elseif (is_array($argument)) {
                 $buffer[] = $this->convertArrayToDebugString($argument);

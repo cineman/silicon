@@ -274,3 +274,27 @@ console.log(myflattenedarray)
 --    {"name" = "X3", "options_color" = "silver", "options_wheels" = "alloy"}
 --)
 ```
+
+## getPath
+
+```lua
+getPath(array, path)
+```
+
+Returns the value of the given path in the given array (path is a string with keys separated by dots) or null if the path is not found.
+
+Example:
+
+```lua
+local myarray = {
+    "name" = "Captain",
+    "age" = 50,
+    "address" = {
+        "street" = "Main St",
+        "city" = "New York"
+    }
+}
+
+console.log(array.getPath(myarray, "address.city")) -- prints: "New York"
+console.log(array.getPath(myarray, "address.zip")) -- prints: null
+```

@@ -133,6 +133,15 @@ class SiliconArrayModule implements SiliconModuleInterface
             },
 
             /**
+             * array.get(array, key, default)
+             * 
+             * Returns the value of the given key in the given array, if the key is not found in the array, it returns the default value
+             */
+            'getPath' => function(array $array, string $path, $default = null) {
+                return [$this->getPathArray($array, $path, $default)];
+            },
+
+            /**
              * array.groupBy(array, key)
              * 
              * Groups the given array of arrays by the given key, if the key is not found in the array, it is ignored
@@ -157,6 +166,27 @@ class SiliconArrayModule implements SiliconModuleInterface
                 return [$this->flattenArray($array, $delimiter)];
             },
         ];
+    }
+
+    /**
+     * Returns a value from a nested array using a dot separated path
+     * 
+     * Returns null if at any point the path is not found
+     * 
+     * @param array<mixed> $array
+     * @return mixed
+     */
+    public function getPathArray(array $array, string $path, mixed $default = null) : mixed
+    {
+        $keys = explode('.', $path);
+        $current = $array;
+        foreach ($keys as $key) {
+            if (!array_key_exists($key, $current)) {
+                return $default;
+            }
+            $current = $current[$key];
+        }
+        return $current;
     }
 
     /**

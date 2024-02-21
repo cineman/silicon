@@ -168,15 +168,15 @@ LUA;
 
         // test with multiple arguments
         $code = <<<'LUA'
-debug('foo', 'bar', 1, 2, 3)
+debug('foo', 'bar', null, 1, 2, 3, null)
 LUA;    
         try {
             $luactx->eval($code);
         } catch (SiliconRuntimeDebugBreakpointException $e) {
-            $this->assertEquals(['foo', 'bar', 1, 2, 3], $e->getBreakpointValues());
+            $this->assertEquals(['foo', 'bar', null, 1, 2, 3, null], $e->getBreakpointValues());
         }
 
-        $this->assertEquals('string("foo"), string("bar"), int(1), int(2), int(3)', $luactx->console()->all()[1][1]);
+        $this->assertEquals('string("foo"), string("bar"), null, int(1), int(2), int(3), null', $luactx->console()->all()[1][1]);
     }
 
     public function testSetAndGetParamters()
