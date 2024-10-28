@@ -112,6 +112,14 @@ LUA;
     }
 
     /**
+     * Clears all log messages
+     */
+    public function clear() : void
+    {
+        $this->consoleData = [];
+    }
+
+    /**
      * Prints the given string into the console
      * 
      * @param string                $string
