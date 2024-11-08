@@ -8,7 +8,7 @@
     ],
     "require": {
         "clancats/container": "^1.0",
-        "cineman/hydrogen": "^1.6"
+        "cineman/hydrogen": "dev-feature/PJAS-2341-meta-document-store"
     },
     "require-dev": {
         "phpstan/phpstan": "^1.8",
