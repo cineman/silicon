@@ -275,6 +275,23 @@ console.log(myflattenedarray)
 --)
 ```
 
+## join
+
+```lua
+join(array, delimiter)
+```
+
+Joins the elements of the array into a string with the given delimiter
+
+Example:
+
+```lua
+local myarray = {"Captain", "Doctor", "Master"}
+local myjoined = array.join(myarray, ", ")
+
+console.log(myjoined) -- prints: "Captain, Doctor, Master"
+```
+
 ## getPath
 
 ```lua

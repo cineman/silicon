@@ -165,6 +165,15 @@ class SiliconArrayModule implements SiliconModuleInterface
             'flatten' => function(array $array, string $delimiter = '.') {
                 return [$this->flattenArray($array, $delimiter)];
             },
+
+            /**
+             * array.join(array, delimiter)
+             * 
+             * Joins the elements of the array into a string with the given delimiter
+             */
+            'join' => function(array $array, string $delimiter = ',') {
+                return [implode($delimiter, $array)];
+            }
         ];
     }
 
