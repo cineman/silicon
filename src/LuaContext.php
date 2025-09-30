@@ -224,6 +224,16 @@ class LuaContext
     }
 
     /**
+     * Returns all registered modules
+     * 
+     * @var array<SiliconModuleInterface>
+     */
+    public function getRegisteredModules() : array
+    {
+        return $this->registeredModules;
+    }
+
+    /**
      * Registers custom Lua Modules from the container
      * 
      * @return void
